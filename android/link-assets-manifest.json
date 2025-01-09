@@ -1,0 +1,89 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/assets/fonts/PlayfairDisplay/PlayfairDisplay-Black.ttf",
+      "sha1": "8447710fac88b58e7f3b6f034ceda7eb3a036f4c"
+    },
+    {
+      "path": "src/assets/fonts/PlayfairDisplay/PlayfairDisplay-BlackItalic.ttf",
+      "sha1": "ea79a434bf4c907e18f51823de5c0ccce89ecf0c"
+    },
+    {
+      "path": "src/assets/fonts/PlayfairDisplay/PlayfairDisplay-Bold.ttf",
+      "sha1": "fb74d7e889a2c24dc08d5b931c620d47e607d11a"
+    },
+    {
+      "path": "src/assets/fonts/PlayfairDisplay/PlayfairDisplay-BoldItalic.ttf",
+      "sha1": "20080e453bfd141821b7686f516993b6d812113e"
+    },
+    {
+      "path": "src/assets/fonts/PlayfairDisplay/PlayfairDisplay-ExtraBold.ttf",
+      "sha1": "a65d3cc7e11169ae1bfc88db81005077afd020d2"
+    },
+    {
+      "path": "src/assets/fonts/PlayfairDisplay/PlayfairDisplay-ExtraBoldItalic.ttf",
+      "sha1": "c72c7e1a0582b0c8a65327b35dfdabff2e4744a7"
+    },
+    {
+      "path": "src/assets/fonts/PlayfairDisplay/PlayfairDisplay-Italic.ttf",
+      "sha1": "dd11369827ff1e0ba4071a275c5b3645b1ce6486"
+    },
+    {
+      "path": "src/assets/fonts/PlayfairDisplay/PlayfairDisplay-Medium.ttf",
+      "sha1": "8bf13110d20940f886ae02a07ec6068f4028740d"
+    },
+    {
+      "path": "src/assets/fonts/PlayfairDisplay/PlayfairDisplay-MediumItalic.ttf",
+      "sha1": "c01f61ddb79e4cef74325f043731143af3190919"
+    },
+    {
+      "path": "src/assets/fonts/PlayfairDisplay/PlayfairDisplay-Regular.ttf",
+      "sha1": "96a2e660869a872971935d18105d64eadd693ddb"
+    },
+    {
+      "path": "src/assets/fonts/PlayfairDisplay/PlayfairDisplay-SemiBold.ttf",
+      "sha1": "b50e2c15ddb338b15f08df6c2c37ce35f698148f"
+    },
+    {
+      "path": "src/assets/fonts/PlayfairDisplay/PlayfairDisplay-SemiBoldItalic.ttf",
+      "sha1": "a8d06a7536ea96a72e38112a2fcadf19504b0093"
+    },
+    {
+      "path": "src/assets/fonts/SFUIDisplay/SFUIDisplay-Black.otf",
+      "sha1": "026fe4561320ae030f5fdf7efcdc4185257a849d"
+    },
+    {
+      "path": "src/assets/fonts/SFUIDisplay/SFUIDisplay-Bold.ttf",
+      "sha1": "f1278a898670d2a92c066e14ce427b1789b44e16"
+    },
+    {
+      "path": "src/assets/fonts/SFUIDisplay/SFUIDisplay-Heavy.otf",
+      "sha1": "72cf5aecdde4430a015b363cb66ec1f2810bfe19"
+    },
+    {
+      "path": "src/assets/fonts/SFUIDisplay/SFUIDisplay-Light.ttf",
+      "sha1": "db1be7039e1a092e600d8e4a6c5e3ec334e9783f"
+    },
+    {
+      "path": "src/assets/fonts/SFUIDisplay/SFUIDisplay-Medium.otf",
+      "sha1": "4de8397e62145d3c3e0fd260d24e5ea9b16f4052"
+    },
+    {
+      "path": "src/assets/fonts/SFUIDisplay/SFUIDisplay-Regular.otf",
+      "sha1": "97d7866e3bf32d9131532d9428f6c2e20f276edb"
+    },
+    {
+      "path": "src/assets/fonts/SFUIDisplay/SFUIDisplay-Semibold.otf",
+      "sha1": "260096ed8b47556cbffc77bd1335bdb903337bfb"
+    },
+    {
+      "path": "src/assets/fonts/SFUIDisplay/SFUIDisplay-Thin.otf",
+      "sha1": "47cbe11a00ea1359f526ba81596d7b167cd46527"
+    },
+    {
+      "path": "src/assets/fonts/SFUIDisplay/SFUIDisplay-Ultralight.otf",
+      "sha1": "20c34cf72e3dab2726ba0e479f0f87b07d91321a"
+    }
+  ]
+}
