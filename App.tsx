@@ -10,7 +10,12 @@ const Stack = createNativeStackNavigator();
 const App = () => {
   return (
     <NavigationContainer ref={navigationRef}>
-      <Stack.Navigator initialRouteName="SplashScreen">
+      <Stack.Navigator initialRouteName="SplashScreen"
+      screenOptions={{
+        headerTransparent: true,
+        headerShown: true
+      }}
+      >
         {/* Splash Screen */}
         <Stack.Screen
           name="SplashScreen"
