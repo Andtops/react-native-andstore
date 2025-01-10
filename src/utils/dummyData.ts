@@ -9,12 +9,12 @@ export const dummyProducts = {
       images: [
         {
           file: {
-            url: "https://example.com/images/mens-shirt-1.jpg",
+            url: "https://www.krea.ai/api/img?f=webp&i=https%3A%2F%2Ftest1-emgndhaqd0c9h2db.a01.azurefd.net%2Fimages%2F43c09c2e-794a-414d-849c-a65fbb6e5d86.png",
           },
         },
         {
           file: {
-            url: "https://example.com/images/mens-shirt-2.jpg",
+            url: "https://cdn.pixabay.com/photo/2013/07/13/14/07/apparel-162180_1280.png",
           },
         },
       ],
@@ -42,7 +42,7 @@ export const dummyProducts = {
       images: [
         {
           file: {
-            url: "https://example.com/images/womens-dress-1.jpg",
+            url: "https://www.krea.ai/api/img?f=webp&i=https%3A%2F%2Ftest1-emgndhaqd0c9h2db.a01.azurefd.net%2Fimages%2Fc8ea9609-fdb4-421d-a8e5-8306dff808dc.png",
           },
         },
         {
@@ -75,7 +75,7 @@ export const dummyProducts = {
       images: [
         {
           file: {
-            url: "https://example.com/images/mens-jacket-1.jpg",
+            url: "https://www.krea.ai/api/img?f=webp&i=https%3A%2F%2Ftest1-emgndhaqd0c9h2db.a01.azurefd.net%2Fimages%2F2776ff75-66ce-4d12-a793-c8183cd43563.png",
           },
         },
         {
@@ -108,7 +108,7 @@ export const dummyProducts = {
       images: [
         {
           file: {
-            url: "https://example.com/images/womens-coat-1.jpg",
+            url: "https://www.krea.ai/api/img?f=webp&i=https%3A%2F%2Ftest1-emgndhaqd0c9h2db.a01.azurefd.net%2Fimages%2Fa6ec348a-24e3-4262-bf2c-291be6c418f6.png",
           },
         },
         {
@@ -141,7 +141,7 @@ export const dummyProducts = {
       images: [
         {
           file: {
-            url: "https://example.com/images/mens-shoes-1.jpg",
+            url: "https://www.krea.ai/api/img?f=webp&i=https%3A%2F%2Ftest1-emgndhaqd0c9h2db.a01.azurefd.net%2Fimages%2F81528326-f7b3-4129-929a-79a47326b0c6.png",
           },
         },
         {
@@ -174,7 +174,7 @@ export const dummyProducts = {
       images: [
         {
           file: {
-            url: "https://example.com/images/womens-sneakers-1.jpg",
+            url: "https://www.krea.ai/api/img?f=webp&i=https%3A%2F%2Ftest1-emgndhaqd0c9h2db.a01.azurefd.net%2Fimages%2F2279e240-03ff-4c3a-83f7-ed95713bb061.png",
           },
         },
         {
@@ -207,7 +207,7 @@ export const dummyProducts = {
       images: [
         {
           file: {
-            url: "https://example.com/images/mens-suit-1.jpg",
+            url: "https://www.krea.ai/api/img?f=webp&i=https%3A%2F%2Ftest1-emgndhaqd0c9h2db.a01.azurefd.net%2Fimages%2Fe46f033f-fdbb-417d-95d7-0d6592304bbd.png",
           },
         },
         {
@@ -240,7 +240,7 @@ export const dummyProducts = {
       images: [
         {
           file: {
-            url: "https://example.com/images/womens-blouse-1.jpg",
+            url: "https://sassafras.in/cdn/shop/products/SFTOPS41771-1_1000x.jpg?v=1736170846",
           },
         },
         {
@@ -273,7 +273,7 @@ export const dummyProducts = {
       images: [
         {
           file: {
-            url: "https://example.com/images/mens-jeans-1.jpg",
+            url: "https://lp2.hm.com/hmgoepprod?set=quality%5B79%5D%2Csource%5B%2Fa6%2Fa2%2Fa6a2dd95717b3b3dd47aee25f3c284a307a65be0.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BLOOKBOOK%5D%2Cres%5Bm%5D%2Chmver%5B1%5D&call=url[file:/product/main]",
           },
         },
         {
@@ -306,7 +306,7 @@ export const dummyProducts = {
       images: [
         {
           file: {
-            url: "https://example.com/images/womens-leggings-1.jpg",
+            url: "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcQZVU3LhKEKZAsmMjEg4U1h9wk-DLrquAgX6BMUdBpUjhd11-rHMsEHPS1b4GuBBSW7AmVuoKXcJNTZQ18UlITPJBjgR20K9LJ4qreKTFgy9Ilc-veioFRc",
           },
         },
         {
@@ -339,22 +339,22 @@ export const dummyCategories = {
     {
       id: "cat_1",
       title: "JACKETS & COATS",
-      image: "https://images.unsplash.com/photo-1605901309584-818e25960a8f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1618&q=80",
+      image: require("../assets/images/category_images/JACKET_AND_COAT.png"),
     },
     {
       id: "cat_2",
-      title: "TROUSERS AND JEANS",
-      image: "https://images.unsplash.com/photo-1604176354204-9268737828e4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1480&q=80",
+      title: "TROUSERS & JEANS",
+      image: require("../assets/images/category_images/TROUSERS_AND_JEANS.png"),
     },
     {
       id: "cat_3",
       title: "KNITWEAR & SWEATSHIRTS",
-      image: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1372&q=80",
+      image: require("../assets/images/category_images/KNITWEAR_&_SWEATSHIRTS.png"),
     },
     {
       id: "cat_4",
       title: "DRESSES & JUMPSUITS",
-      image: "https://images.unsplash.com/photo-1594631252845-29fc4cc8cde9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80",
+      image: require("../assets/images/category_images/DRESSES_&_JUMPSUITS.png"),
     },
     {
       id: "cat_5",

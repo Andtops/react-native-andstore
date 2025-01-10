@@ -1,7 +1,7 @@
 import { View, StyleSheet, Image } from 'react-native';
 import React from 'react';
 
-const Banner = () => {
+const SaleBanner = () => {
   return (
     <View style={styles.container}>
       <Image
@@ -16,7 +16,7 @@ const Banner = () => {
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    height: '100%', // Banner takes 100% of the parent container's height
+    height: '100%', // SaleBanner takes 100% of the parent container's height
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#fff',
@@ -28,4 +28,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Banner;
+export default SaleBanner;
