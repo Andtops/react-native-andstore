@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, ScrollView, Image, Text, StyleSheet } from 'react-native';
-import { dummyCategories } from '../../utils/dummyData';
+import { dummyCategories } from '../../../utils/dummyData';
 
 const CategoryCarousel = () => {
   return (

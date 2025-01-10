@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, ScrollView, StatusBar, StyleSheet, Dimensions } from 'react-native';
-import Banner from '../components/shop/SaleBanner';
-import CategoryCarousel from '../components/shop/CategoryCarousel';
-import ProductList from '../components/shop/ProductList';
-import NewProductBanner from '../components/shop/NewProductBanner';
+import Banner from '../components/shop/home/SaleBanner';
+import CategoryCarousel from '../components/shop/home/CategoryCarousel';
+import ProductList from '../components/shop/home/ProductList';
+import NewProductBanner from '../components/shop/home/NewProductBanner';
 
 const { height } = Dimensions.get('window'); // Get screen height
 

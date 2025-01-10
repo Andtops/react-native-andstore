@@ -1,7 +1,7 @@
 import { View, Text, Dimensions, StyleSheet, FlatList, Image } from 'react-native';
 import React from 'react';
 import { MoveRight } from 'lucide-react-native';
-import { dummyProducts } from '../../utils/dummyData';
+import { dummyProducts } from '../../../utils/dummyData';
 
 const { height } = Dimensions.get('window');
 
