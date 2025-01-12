@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { navigationRef } from './src/navigations/NavigationUtil';
 import SplashScreen from './src/screens/SplashScreen';
 import BottomTabNavigator from './src/navigations/BottomTabNavigator'; // Import the BottomTabNavigator
+import ProductCategoryList from './src/components/shop/category/ProductCategoryList';
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +22,12 @@ const App = () => {
           name="SplashScreen"
           component={SplashScreen}
           options={{ headerShown: false }}
+        />
+        
+        <Stack.Screen 
+        name='ProductCategoryList'
+        component={ProductCategoryList}
+        options={{ headerShown: false }}
         />
 
         {/* Bottom Tab Navigator */}

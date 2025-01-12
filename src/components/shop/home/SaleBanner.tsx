@@ -1,7 +1,13 @@
 import { View, StyleSheet, Image, Text, TouchableOpacity } from 'react-native';
 import React from 'react';
+import { push } from '../../../navigations/NavigationUtil';
 
 const SaleBanner = () => {
+
+  const handleButtonPress = () => {
+    push('ProductCategoryList');
+  }
+
   return (
     <View style={styles.container}>
       <Image
@@ -12,7 +18,7 @@ const SaleBanner = () => {
       {/* Transparent Black Overlay */}
       <View style={styles.overlay} />
       {/* Buy Button */}
-      <TouchableOpacity style={styles.buyButton}>
+      <TouchableOpacity style={styles.buyButton} onPress={handleButtonPress}>
         <Text style={styles.buyButtonText}>Buy</Text>
       </TouchableOpacity>
     </View>
