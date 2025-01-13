@@ -5,11 +5,13 @@ import { navigationRef } from './src/navigations/NavigationUtil';
 import SplashScreen from './src/screens/SplashScreen';
 import BottomTabNavigator from './src/navigations/BottomTabNavigator'; // Import the BottomTabNavigator
 import ProductCategoryList from './src/components/shop/category/ProductCategoryList';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
   return (
+    <GestureHandlerRootView>
     <NavigationContainer ref={navigationRef}>
       <Stack.Navigator initialRouteName="SplashScreen"
       screenOptions={{
@@ -38,6 +40,7 @@ const App = () => {
         />
       </Stack.Navigator>
     </NavigationContainer>
+    </GestureHandlerRootView>
   );
 };
 
