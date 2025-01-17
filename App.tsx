@@ -6,12 +6,22 @@ import SplashScreen from './src/screens/SplashScreen';
 import BottomTabNavigator from './src/navigations/BottomTabNavigator'; // Import the BottomTabNavigator
 import ProductCategoryList from './src/components/shop/category/ProductCategoryList';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { ApolloProvider } from '@apollo/client';
+import client from './src/utils/apolloClient';
+import { loadErrorMessages, loadDevMessages } from "@apollo/client/dev";
+
+if (__DEV__) {
+  // Adds messages only in a dev environment
+  loadDevMessages();
+  loadErrorMessages();
+}
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
   return (
     <GestureHandlerRootView>
+      <ApolloProvider client={client}>
     <NavigationContainer ref={navigationRef}>
       <Stack.Navigator initialRouteName="SplashScreen"
       screenOptions={{
@@ -40,6 +50,7 @@ const App = () => {
         />
       </Stack.Navigator>
     </NavigationContainer>
+    </ApolloProvider>
     </GestureHandlerRootView>
   );
 };

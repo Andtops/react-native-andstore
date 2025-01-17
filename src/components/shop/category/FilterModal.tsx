@@ -7,37 +7,37 @@ import {
     Modal,
     TouchableWithoutFeedback,
   } from 'react-native';
-  import React, { useState } from 'react';
+  import React from 'react';
+  import { dummyCategories } from '../../../utils/dummyData';
   
   type FilterModalProps = {
     isFilterOpen: boolean;
     setIsFilterOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    selectedCategory: string; // Pass selected category
+    setSelectedCategory: React.Dispatch<React.SetStateAction<string>>; // Pass setter function
   };
   
   // Filter data
-  const categories = ['Trousers and jeans', 'Jackets & Coats', 'Knitwear & sweater'];
   const colors = ['White', 'Red', 'Brown', 'Multicolor', 'Black'];
   const sizes = ['XS', 'XS-S', 'M', 'M-L', 'L'];
   const prices = ['Up to 10', 'Up to 20', 'Up to 30', 'Up to 40'];
   
-  const FilterModal = ({ isFilterOpen, setIsFilterOpen }: FilterModalProps) => {
-    // State for selected filters
-    const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-    const [selectedColors, setSelectedColors] = useState<string[]>([]);
-    const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
-    const [selectedPrices, setSelectedPrices] = useState<string[]>([]);
+  const FilterModal = ({
+    isFilterOpen,
+    setIsFilterOpen,
+    selectedCategory,
+    setSelectedCategory,
+  }: FilterModalProps) => {
+    // Extract category titles from dummyCategories
+    const categoryTitles = dummyCategories.categories.map((category) => category.title);
   
     // Toggle selection for a filter item
-    const toggleSelection = (item: string, selectedItems: string[], setSelectedItems: React.Dispatch<React.SetStateAction<string[]>>) => {
-      if (selectedItems.includes(item)) {
-        setSelectedItems(selectedItems.filter((selectedItem) => selectedItem !== item));
-      } else {
-        setSelectedItems([...selectedItems, item]);
-      }
+    const toggleSelection = (item: string) => {
+      setSelectedCategory(item); // Update the selected category
     };
   
     // Render a filter section
-    const renderFilterSection = (title: string, data: string[], selectedItems: string[], setSelectedItems: React.Dispatch<React.SetStateAction<string[]>>) => (
+    const renderFilterSection = (title: string, data: string[]) => (
       <View style={styles.filterSection}>
         <Text style={styles.filterSectionTitle}>{title}</Text>
         <View style={styles.filterListContainer}>
@@ -48,9 +48,9 @@ import {
               <TouchableOpacity
                 style={[
                   styles.filterChip,
-                  selectedItems.includes(item) && styles.selectedFilterChip, // Apply selected style
+                  selectedCategory === item && styles.selectedFilterChip, // Apply selected style
                 ]}
-                onPress={() => toggleSelection(item, selectedItems, setSelectedItems)}
+                onPress={() => toggleSelection(item)} // Handle category selection
               >
                 <Text style={styles.filterChipText}>{item}</Text>
               </TouchableOpacity>
@@ -65,10 +65,7 @@ import {
   
     // Clear all selections
     const clearAllSelections = () => {
-      setSelectedCategories([]);
-      setSelectedColors([]);
-      setSelectedSizes([]);
-      setSelectedPrices([]);
+      setSelectedCategory('See all'); // Reset selected category
     };
   
     return (
@@ -93,10 +90,10 @@ import {
                 </View>
   
                 {/* Filter Sections */}
-                {renderFilterSection('Type', categories, selectedCategories, setSelectedCategories)}
-                {renderFilterSection('Colour', colors, selectedColors, setSelectedColors)}
-                {renderFilterSection('Size', sizes, selectedSizes, setSelectedSizes)}
-                {renderFilterSection('Price', prices, selectedPrices, setSelectedPrices)}
+                {renderFilterSection('Type', categoryTitles)}
+                {renderFilterSection('Colour', colors)}
+                {renderFilterSection('Size', sizes)}
+                {renderFilterSection('Price', prices)}
   
                 {/* See Results Button */}
                 <TouchableOpacity style={styles.seeResultsButton}>

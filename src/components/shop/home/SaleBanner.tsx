@@ -5,7 +5,7 @@ import { push } from '../../../navigations/NavigationUtil';
 const SaleBanner = () => {
 
   const handleButtonPress = () => {
-    push('ProductCategoryList');
+    push('ProductCategoryList', {category: 'sale'});
   }
 
   return (

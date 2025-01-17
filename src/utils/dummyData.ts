@@ -652,33 +652,216 @@ export const dummyCategories = {
       id: 'cat_1',
       title: 'JACKETS & COATS',
       image: require('../assets/images/category_images/JACKET_AND_COAT.png'),
+      types: [
+        { id: 'type_1', title: 'Leather Jackets' },
+        { id: 'type_2', title: 'Winter Coats' },
+        { id: 'type_3', title: 'Denim Jackets' },
+        { id: 'type_4', title: 'Raincoats' },
+      ],
     },
     {
       id: 'cat_2',
       title: 'TROUSERS & JEANS',
       image: require('../assets/images/category_images/TROUSERS_AND_JEANS.png'),
+      types: [
+        { id: 'type_5', title: 'Skinny Jeans' },
+        { id: 'type_6', title: 'Cargo Pants' },
+        { id: 'type_7', title: 'Chinos' },
+        { id: 'type_8', title: 'Joggers' },
+      ],
     },
     {
       id: 'cat_3',
       title: 'KNITWEAR & SWEATSHIRTS',
       image: require('../assets/images/category_images/KNITWEAR_&_SWEATSHIRTS.png'),
+      types: [
+        { id: 'type_9', title: 'Sweaters' },
+        { id: 'type_10', title: 'Cardigans' },
+        { id: 'type_11', title: 'Hoodies' },
+        { id: 'type_12', title: 'Pullovers' },
+      ],
     },
     {
       id: 'cat_4',
       title: 'DRESSES & JUMPSUITS',
       image: require('../assets/images/category_images/DRESSES_&_JUMPSUITS.png'),
+      types: [
+        { id: 'type_13', title: 'Casual Dresses' },
+        { id: 'type_14', title: 'Evening Dresses' },
+        { id: 'type_15', title: 'Jumpsuits' },
+        { id: 'type_16', title: 'Maxi Dresses' },
+      ],
     },
     {
       id: 'cat_5',
       title: 'T-SHIRTS AND TOPS',
       image:
         'https://images.unsplash.com/photo-1618354691551-44de113f0164?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80',
+      types: [
+        { id: 'type_17', title: 'Graphic Tees' },
+        { id: 'type_18', title: 'Crop Tops' },
+        { id: 'type_19', title: 'Tank Tops' },
+        { id: 'type_20', title: 'Blouses' },
+      ],
     },
     {
       id: 'cat_6',
       title: 'SHOES',
       image:
         'https://images.unsplash.com/photo-1549298916-b41d501d3772?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1412&q=80',
+      types: [
+        { id: 'type_21', title: 'Sneakers' },
+        { id: 'type_22', title: 'Boots' },
+        { id: 'type_23', title: 'Sandals' },
+        { id: 'type_24', title: 'Heels' },
+      ],
     },
   ],
+  saleCategories: [
+    {
+      HeaderText: "Sale up to 60% off",
+      promotionText: "Promotion available from 25/12/2024 until 14/02/2025 on selected items.",
+    },
+    {
+      id: 'cat_1',
+      title: 'JACKETS & COATS',
+      image: require('../assets/images/category_images/JACKET_AND_COAT.png'),
+      types: [
+        { id: 'type_1', title: 'Leather Jackets' },
+        { id: 'type_2', title: 'Winter Coats' },
+        { id: 'type_3', title: 'Denim Jackets' },
+        { id: 'type_4', title: 'Raincoats' },
+      ],
+    },
+    {
+      id: 'cat_2',
+      title: 'TROUSERS & JEANS',
+      image: require('../assets/images/category_images/TROUSERS_AND_JEANS.png'),
+      types: [
+        { id: 'type_5', title: 'Skinny Jeans' },
+        { id: 'type_6', title: 'Cargo Pants' },
+        { id: 'type_7', title: 'Chinos' },
+        { id: 'type_8', title: 'Joggers' },
+      ],
+    },
+    {
+      id: 'cat_3',
+      title: 'KNITWEAR & SWEATSHIRTS',
+      image: require('../assets/images/category_images/KNITWEAR_&_SWEATSHIRTS.png'),
+      types: [
+        { id: 'type_9', title: 'Sweaters' },
+        { id: 'type_10', title: 'Cardigans' },
+        { id: 'type_11', title: 'Hoodies' },
+        { id: 'type_12', title: 'Pullovers' },
+      ],
+    },
+    {
+      id: 'cat_4',
+      title: 'DRESSES & JUMPSUITS',
+      image: require('../assets/images/category_images/DRESSES_&_JUMPSUITS.png'),
+      types: [
+        { id: 'type_13', title: 'Casual Dresses' },
+        { id: 'type_14', title: 'Evening Dresses' },
+        { id: 'type_15', title: 'Jumpsuits' },
+        { id: 'type_16', title: 'Maxi Dresses' },
+      ],
+    },
+    {
+      id: 'cat_5',
+      title: 'T-SHIRTS AND TOPS',
+      image:
+        'https://images.unsplash.com/photo-1618354691551-44de113f0164?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80',
+      types: [
+        { id: 'type_17', title: 'Graphic Tees' },
+        { id: 'type_18', title: 'Crop Tops' },
+        { id: 'type_19', title: 'Tank Tops' },
+        { id: 'type_20', title: 'Blouses' },
+      ],
+    },
+    {
+      id: 'cat_6',
+      title: 'SHOES',
+      image:
+        'https://images.unsplash.com/photo-1549298916-b41d501d3772?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1412&q=80',
+      types: [
+        { id: 'type_21', title: 'Sneakers' },
+        { id: 'type_22', title: 'Boots' },
+        { id: 'type_23', title: 'Sandals' },
+        { id: 'type_24', title: 'Heels' },
+      ],
+    },
+  ],
+  Jacket_and_Coat: [
+    {
+      HeaderText: "Jackets and coats",
+    },
+    {
+      id: 'cat_1',
+      title: 'JACKETS & COATS',
+      image: require('../assets/images/category_images/JACKET_AND_COAT.png'),
+      types: [
+        { id: 'type_1', title: 'Leather Jackets' },
+        { id: 'type_2', title: 'Winter Coats' },
+        { id: 'type_3', title: 'Denim Jackets' },
+        { id: 'type_4', title: 'Raincoats' },
+      ],
+    },
+    {
+      id: 'cat_2',
+      title: 'TROUSERS & JEANS',
+      image: require('../assets/images/category_images/TROUSERS_AND_JEANS.png'),
+      types: [
+        { id: 'type_5', title: 'Skinny Jeans' },
+        { id: 'type_6', title: 'Cargo Pants' },
+        { id: 'type_7', title: 'Chinos' },
+        { id: 'type_8', title: 'Joggers' },
+      ],
+    },
+    {
+      id: 'cat_3',
+      title: 'KNITWEAR & SWEATSHIRTS',
+      image: require('../assets/images/category_images/KNITWEAR_&_SWEATSHIRTS.png'),
+      types: [
+        { id: 'type_9', title: 'Sweaters' },
+        { id: 'type_10', title: 'Cardigans' },
+        { id: 'type_11', title: 'Hoodies' },
+        { id: 'type_12', title: 'Pullovers' },
+      ],
+    },
+    {
+      id: 'cat_4',
+      title: 'DRESSES & JUMPSUITS',
+      image: require('../assets/images/category_images/DRESSES_&_JUMPSUITS.png'),
+      types: [
+        { id: 'type_13', title: 'Casual Dresses' },
+        { id: 'type_14', title: 'Evening Dresses' },
+        { id: 'type_15', title: 'Jumpsuits' },
+        { id: 'type_16', title: 'Maxi Dresses' },
+      ],
+    },
+    {
+      id: 'cat_5',
+      title: 'T-SHIRTS AND TOPS',
+      image:
+        'https://images.unsplash.com/photo-1618354691551-44de113f0164?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80',
+      types: [
+        { id: 'type_17', title: 'Graphic Tees' },
+        { id: 'type_18', title: 'Crop Tops' },
+        { id: 'type_19', title: 'Tank Tops' },
+        { id: 'type_20', title: 'Blouses' },
+      ],
+    },
+    {
+      id: 'cat_6',
+      title: 'SHOES',
+      image:
+        'https://images.unsplash.com/photo-1549298916-b41d501d3772?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1412&q=80',
+      types: [
+        { id: 'type_21', title: 'Sneakers' },
+        { id: 'type_22', title: 'Boots' },
+        { id: 'type_23', title: 'Sandals' },
+        { id: 'type_24', title: 'Heels' },
+      ],
+    },
+  ]
 };

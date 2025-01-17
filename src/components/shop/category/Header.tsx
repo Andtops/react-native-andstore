@@ -1,13 +1,19 @@
-// components/Header.js
 import React from 'react';
-import { View, Text, TouchableOpacity, Animated, StyleSheet } from 'react-native';
+import { Text, TouchableOpacity, Animated, StyleSheet } from 'react-native';
 import { ChevronLeft } from 'lucide-react-native';
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 
-const Header = ({ scrollY, goBack } : any) => {
+const Header = ({ scrollY, goBack, collection }: any) => {
+  // Determine if there is a description
+  const hasDescription = !!collection?.description;
+
+  // Adjust header height based on whether there is a description
   const headerHeight = scrollY.interpolate({
     inputRange: [0, 200],
-    outputRange: [verticalScale(150), verticalScale(60)],
+    outputRange: [
+      hasDescription ? verticalScale(150) : verticalScale(100), // Reduced height if no description
+      verticalScale(60),
+    ],
     extrapolate: 'clamp',
   });
 
@@ -31,15 +37,17 @@ const Header = ({ scrollY, goBack } : any) => {
 
       {/* Regular Header */}
       <Animated.View style={[styles.headerContent, { opacity: headerTitleOpacity }]}>
-        <Text style={styles.headerTitle}>Sale up to 60% off</Text>
-        <Text style={styles.promotionText}>
-          Promotion available from 25/12/2024 until 14/02/2025 on selected items.
-        </Text>
+        <Text style={styles.headerTitle}>{collection?.title}</Text>
+        {hasDescription && (
+          <Text style={styles.promotionText}>
+            {collection?.description}
+          </Text>
+        )}
       </Animated.View>
 
       {/* Condensed Header */}
       <Animated.View style={[styles.condensedHeader, { opacity: condensedHeaderOpacity }]}>
-        <Text style={styles.condensedTitle}>Sale up to 60% off</Text>
+        <Text style={styles.condensedTitle}>{collection?.title}</Text>
       </Animated.View>
     </Animated.View>
   );

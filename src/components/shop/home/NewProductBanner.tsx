@@ -1,8 +1,14 @@
 import {View, StyleSheet, Image, Button, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {Text} from 'react-native';
+import { push } from '../../../navigations/NavigationUtil';
 
 const NewProductBanner = () => {
+
+  const handleButtonPress = () => {
+    push('ProductCategoryList', {category: 'new'});
+  }
+
   return (
     <View style={styles.container}>
       <Image
@@ -12,7 +18,7 @@ const NewProductBanner = () => {
       />
       <View style={styles.linkView}>
         <Text style={styles.linkText}>NEW</Text>
-        <TouchableOpacity style={styles.linkButton}>
+        <TouchableOpacity style={styles.linkButton} onPress={handleButtonPress}>
           <Text style={styles.linkButtonText}>Discover</Text>
         </TouchableOpacity>
       </View>
