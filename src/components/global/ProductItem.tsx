@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { ShoppingBag } from 'lucide-react-native';
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 
-const ProductItem = ({ item, isGridView }: any) => {
-  const product = item.node; // Access the product node from the Shopify response
-  const [selectedColor, setSelectedColor] = useState('');
-  const [selectedSize, setSelectedSize] = useState('');
+const ProductItem = ({ item, isGridView, onColorSelect, selectedColor }: any) => {
+  const product = item.node;
 
-  // Extract product details
+  const handleColorSelect = (color: string) => {
+    onColorSelect(color === selectedColor ? '' : color);
+  };
+
   const imageUrl = product.featuredImage?.url || 'https://via.placeholder.com/150';
   const price = product.variants.edges[0]?.node.price?.amount || 'N/A';
   const compareAtPrice = product.variants.edges[0]?.node.compareAtPrice?.amount || null;
@@ -28,20 +29,18 @@ const ProductItem = ({ item, isGridView }: any) => {
           <Text style={styles.discountedPrice}>₹{price}</Text>
         </View>
 
-        {/* Color Selection */}
         <View style={styles.selectionContainer}>
           <View style={styles.colorOptions}>
-            {/* Example: Render color options if available */}
             {product.options?.map((option: any) => (
               option.name === 'Color' && option.values.map((color: string, index: number) => (
                 <TouchableOpacity
                   key={index}
                   style={[
                     styles.colorOption,
-                    { backgroundColor: color.toLowerCase() }, // Use the color value directly
+                    { backgroundColor: color.toLowerCase() },
                     selectedColor === color && styles.selectedColorOption,
                   ]}
-                  onPress={() => setSelectedColor(color)}
+                  onPress={() => handleColorSelect(color)}
                 />
               ))
             ))}
@@ -65,15 +64,15 @@ const styles = StyleSheet.create({
   },
   productImage: {
     width: '100%',
-    aspectRatio: 9 / 16,
+    aspectRatio: 4 / 6,
     backgroundColor: '#F5F5F5',
   },
   productInfo: {
     padding: moderateScale(8),
   },
   productName: {
-    fontSize: moderateScale(13),
-    marginBottom: verticalScale(8),
+    fontSize: moderateScale(12),
+    marginBottom: verticalScale(3),
     fontFamily: 'SFUIDisplay-Medium',
   },
   priceContainer: {
@@ -83,12 +82,12 @@ const styles = StyleSheet.create({
     marginBottom: verticalScale(8),
   },
   originalPrice: {
-    fontSize: moderateScale(12),
+    fontSize: moderateScale(11),
     textDecorationLine: 'line-through',
     color: '#666',
   },
   discountedPrice: {
-    fontSize: moderateScale(13),
+    fontSize: moderateScale(11),
     fontWeight: 'bold',
     color: '#FF0000',
   },

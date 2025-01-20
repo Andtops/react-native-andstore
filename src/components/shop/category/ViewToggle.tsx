@@ -1,10 +1,9 @@
-// components/ViewToggle.js
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Grid, List, SlidersHorizontal } from 'lucide-react-native';
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 
-const ViewToggle = ({ isGridView, setIsGridView, setIsFilterOpen } : any) => {
+const ViewToggle = ({ isGridView, setIsGridView, setIsFilterOpen, resultsCount } : any) => {
   return (
     <View style={styles.viewToggleContainer}>
       <View style={styles.viewToggle}>
@@ -19,7 +18,7 @@ const ViewToggle = ({ isGridView, setIsGridView, setIsFilterOpen } : any) => {
           <List style={styles.toggleIcon} />
         </TouchableOpacity>
       </View>
-      <Text style={styles.resultsText}>950 results</Text>
+      <Text style={styles.resultsText}>{resultsCount} results</Text>
       <TouchableOpacity onPress={() => setIsFilterOpen(true)}>
         <SlidersHorizontal style={styles.filterIcon} />
       </TouchableOpacity>

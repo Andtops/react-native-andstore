@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -9,38 +9,74 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 
+interface PriceRange {
+  label: string;
+  type: 'sort' | 'range';
+  value?: string;
+  min?: number;
+  max?: number;
+}
+
 type FilterModalProps = {
   isFilterOpen: boolean;
   setIsFilterOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  selectedCategory: string; // Pass selected category
-  setSelectedCategory: React.Dispatch<React.SetStateAction<string>>; // Pass setter function
-  productTypes: string[]; // Pass product types
+  selectedCategory: string;
+  selectedColor: string;
+  selectedSize: string;
+  selectedPriceRange: PriceRange | null;
+  onApplyFilters: (category: string, color: string, size: string, priceRange: PriceRange | null) => void;
+  onClearFilters: () => void;
+  productTypes: string[];
+  colors: string[];
+  sizes: string[];
+  priceRanges: PriceRange[];
 };
-
-// Filter data
-const colors = ['White', 'Red', 'Brown', 'Multicolor', 'Black'];
-const sizes = ['XS', 'XS-S', 'M', 'M-L', 'L'];
-const prices = ['Up to 10', 'Up to 20', 'Up to 30', 'Up to 40'];
 
 const FilterModal = ({
   isFilterOpen,
   setIsFilterOpen,
   selectedCategory,
-  setSelectedCategory,
-  productTypes, // Receive product types
+  selectedColor,
+  selectedSize,
+  selectedPriceRange,
+  onApplyFilters,
+  onClearFilters,
+  productTypes,
+  colors,
+  sizes,
+  priceRanges,
 }: FilterModalProps) => {
-  // Validate productTypes
-  const validProductTypes = Array.isArray(productTypes)
-    ? productTypes.filter((type) => typeof type === 'string')
-    : [];
+  const [tempCategory, setTempCategory] = useState(selectedCategory);
+  const [tempColor, setTempColor] = useState(selectedColor);
+  const [tempSize, setTempSize] = useState(selectedSize);
+  const [tempPriceRange, setTempPriceRange] = useState(selectedPriceRange);
 
-  // Toggle selection for a filter item
-  const toggleSelection = (item: string) => {
-    setSelectedCategory(item); // Update the selected category
+  useEffect(() => {
+    setTempCategory(selectedCategory);
+    setTempColor(selectedColor);
+    setTempSize(selectedSize);
+    setTempPriceRange(selectedPriceRange);
+  }, [isFilterOpen]);
+
+  const handleApplyFilters = () => {
+    onApplyFilters(tempCategory, tempColor, tempSize, tempPriceRange);
   };
 
-  // Render a filter section
-  const renderFilterSection = (title: string, data: string[]) => (
+  const handleClearFilters = () => {
+    setTempCategory('See all');
+    setTempColor('');
+    setTempSize('');
+    setTempPriceRange(null);
+    onClearFilters();
+  };
+
+  const renderFilterSection = (
+    title: string,
+    data: any[],
+    selectedValue: any,
+    setSelectedValue: (value: any) => void,
+    isPriceSection: boolean = false
+  ) => (
     <View style={styles.filterSection}>
       <Text style={styles.filterSectionTitle}>{title}</Text>
       <View style={styles.filterListContainer}>
@@ -51,26 +87,43 @@ const FilterModal = ({
             <TouchableOpacity
               style={[
                 styles.filterChip,
-                selectedCategory === item && styles.selectedFilterChip, // Apply selected style
+                isPriceSection
+                  ? selectedValue?.label === item.label && styles.selectedFilterChip
+                  : selectedValue === item && styles.selectedFilterChip,
               ]}
-              onPress={() => toggleSelection(item)} // Handle category selection
+              onPress={() => {
+                if (isPriceSection) {
+                  setSelectedValue(selectedValue?.label === item.label ? null : item);
+                } else {
+                  setSelectedValue(selectedValue === item ? '' : item);
+                }
+              }}
             >
-              <Text style={styles.filterChipText}>
-                {typeof item === 'string' ? item : ''} {/* Ensure item is a string */}
+              <Text
+                style={[
+                  styles.filterChipText,
+                  (isPriceSection ? selectedValue?.label === item.label : selectedValue === item) && styles.selectedFilterChipText
+                ]}
+              >
+                {isPriceSection ? item.label : item}
               </Text>
             </TouchableOpacity>
           )}
           keyExtractor={(item, index) => index.toString()}
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.filterListContent} // Add padding for better spacing
+          contentContainerStyle={styles.filterListContent}
         />
       </View>
     </View>
   );
 
-  // Clear all selections
-  const clearAllSelections = () => {
-    setSelectedCategory('See all'); // Reset selected category
+  const getActiveFiltersCount = () => {
+    let count = 0;
+    if (tempCategory) count++;
+    if (tempColor) count++;
+    if (tempSize) count++;
+    if (tempPriceRange) count++;
+    return count;
   };
 
   return (
@@ -84,25 +137,27 @@ const FilterModal = ({
         <View style={styles.modalOverlay}>
           <TouchableWithoutFeedback>
             <View style={styles.modalContainer}>
-              {/* Clear and New In Buttons */}
               <View style={styles.buttonRow}>
-                <TouchableOpacity style={styles.clearButton} onPress={clearAllSelections}>
-                  <Text style={styles.clearButtonText}>Clear</Text>
+                <TouchableOpacity style={styles.clearButton} onPress={handleClearFilters}>
+                  <Text style={styles.clearButtonText}>Clear All</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.newInButton}>
-                  <Text style={styles.newInButtonText}>Select Options</Text>
+                <TouchableOpacity style={styles.newInButton} onPress={handleApplyFilters}>
+                  <Text style={styles.newInButtonText}>Apply Filters</Text>
                 </TouchableOpacity>
               </View>
 
-              {/* Filter Sections */}
-              {renderFilterSection('Type', validProductTypes)} {/* Use validated productTypes */}
-              {renderFilterSection('Colour', colors)}
-              {renderFilterSection('Size', sizes)}
-              {renderFilterSection('Price', prices)}
+              {renderFilterSection('Type', productTypes, tempCategory, setTempCategory)}
+              {renderFilterSection('Colour', colors, tempColor, setTempColor)}
+              {renderFilterSection('Size', sizes, tempSize, setTempSize)}
+              {renderFilterSection('Price', priceRanges, tempPriceRange, setTempPriceRange, true)}
 
-              {/* See Results Button */}
-              <TouchableOpacity style={styles.seeResultsButton}>
-                <Text style={styles.seeResultsText}>SEE RESULTS (946)</Text>
+              <TouchableOpacity
+                style={styles.seeResultsButton}
+                onPress={handleApplyFilters}
+              >
+                <Text style={styles.seeResultsText}>
+                  SEE RESULTS ({getActiveFiltersCount()} FILTERS APPLIED)
+                </Text>
               </TouchableOpacity>
             </View>
           </TouchableWithoutFeedback>
@@ -116,14 +171,14 @@ const styles = StyleSheet.create({
   modalOverlay: {
     flex: 1,
     justifyContent: 'flex-end',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   modalContainer: {
-    backgroundColor: '#F8F9FA', // Light gray background for the modal
+    backgroundColor: '#F8F9FA',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     padding: 16,
-    maxHeight: '80%', // Limit modal height
+    maxHeight: '80%',
   },
   buttonRow: {
     flexDirection: 'row',
@@ -132,27 +187,27 @@ const styles = StyleSheet.create({
   },
   clearButton: {
     padding: 10,
-    backgroundColor: '#E9ECEF', // Light gray background for the Clear button
+    backgroundColor: '#E9ECEF',
     borderRadius: 20,
     flex: 1,
     marginRight: 8,
     alignItems: 'center',
   },
   clearButtonText: {
-    color: '#495057', // Dark gray text for better readability
+    color: '#495057',
     fontSize: 14,
     fontWeight: 'bold',
   },
   newInButton: {
     padding: 10,
-    backgroundColor: '#212529', // Dark gray background for the New In button
+    backgroundColor: '#212529',
     borderRadius: 20,
     flex: 1,
     marginLeft: 8,
     alignItems: 'center',
   },
   newInButtonText: {
-    color: '#FFFFFF', // White text for contrast
+    color: '#FFFFFF',
     fontSize: 14,
     fontWeight: 'bold',
   },
@@ -163,40 +218,44 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 8,
-    color: '#212529', // Dark gray text for section titles
+    color: '#212529',
   },
   filterListContainer: {
-    flexDirection: 'row', // Ensure the FlatList is laid out horizontally
-    flexShrink: 1, // Allow the container to shrink if needed
+    flexDirection: 'row',
+    flexShrink: 1,
   },
   filterListContent: {
-    paddingHorizontal: 8, // Add horizontal padding for better spacing
+    paddingHorizontal: 8,
   },
   filterChip: {
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 20,
-    backgroundColor: '#FFFFFF', // White background for filter chips
+    backgroundColor: '#FFFFFF',
     borderWidth: 1,
-    borderColor: '#E9ECEF', // Light gray border for a subtle look
+    borderColor: '#E9ECEF',
     marginRight: 8,
+    marginBottom: 8,
   },
   selectedFilterChip: {
-    backgroundColor: '#E9ECEF', // Light gray background for selected filter chips
-    borderColor: '#212529', // Dark gray border for selected filter chips
+    backgroundColor: '#212529',
+    borderColor: '#212529',
   },
   filterChipText: {
-    color: '#495057', // Dark gray text for filter chips
+    color: '#495057',
     fontSize: 14,
   },
+  selectedFilterChipText: {
+    color: '#FFFFFF',
+  },
   seeResultsButton: {
-    backgroundColor: '#212529', // Dark gray background for the See Results button
+    backgroundColor: '#212529',
     padding: 16,
     borderRadius: 8,
     alignItems: 'center',
   },
   seeResultsText: {
-    color: '#FFFFFF', // White text for contrast
+    color: '#FFFFFF',
     fontSize: 16,
     fontWeight: 'bold',
   },
