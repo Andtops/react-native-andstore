@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import {
   View,
   ScrollView,
@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { useQuery } from '@apollo/client';
 import { push } from '../../../navigations/NavigationUtil';
-import { GETALL_COLLECTIONS } from '../../../api/fetchProducts'; // Updated query
+import { GETALL_COLLECTIONS } from '../../../api/fetchCollections'; // Updated query
 
 interface Collection {
   id: string;
@@ -131,4 +131,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CategoryCarousel;
+export default memo(CategoryCarousel);

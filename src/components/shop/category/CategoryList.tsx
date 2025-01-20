@@ -1,20 +1,23 @@
 import React, { useRef, useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
-import { dummyCategories } from '../../../utils/dummyData';
 
-const CategoryList = ({ selectedCategory, setSelectedCategory }: any) => {
+interface CategoryListProps {
+  categories: string[] | any; // Array of categories (including "See all")
+  selectedCategory: string; // Currently selected category
+  setSelectedCategory: (category: string) => void; // Function to update selected category
+}
+
+const CategoryList: React.FC<CategoryListProps> = ({
+  categories,
+  selectedCategory,
+  setSelectedCategory,
+}) => {
   const flatListRef = useRef<FlatList>(null); // Ref for FlatList
 
-  // Add "See all" as the first item in the categories list
-  const categoriesWithSeeAll = [
-    { id: 'see_all', title: 'See all' }, // Add "See all" as the first item
-    ...dummyCategories.categories, // Spread the rest of the categories
-  ];
-
   // Find the index of the selected category
-  const selectedIndex = categoriesWithSeeAll.findIndex(
-    (item) => item.title === selectedCategory,
+  const selectedIndex = categories.findIndex(
+    (item : any) => item === selectedCategory,
   );
 
   // Scroll to the selected category when it changes
@@ -32,26 +35,26 @@ const CategoryList = ({ selectedCategory, setSelectedCategory }: any) => {
     <FlatList
       ref={flatListRef} // Attach the ref to FlatList
       horizontal
-      data={categoriesWithSeeAll}
+      data={categories}
       renderItem={({ item }) => (
         <TouchableOpacity
           style={[
             styles.categoryChip,
-            selectedCategory === item.title && styles.activeCategoryChip, // Apply active style if selected
+            selectedCategory === item && styles.activeCategoryChip, // Apply active style if selected
           ]}
-          onPress={() => setSelectedCategory(item.title)} // Handle category selection
+          onPress={() => setSelectedCategory(item)} // Handle category selection
         >
           <Text
             style={[
               styles.categoryText,
-              selectedCategory === item.title && styles.activeCategoryText, // Apply active text style if selected
+              selectedCategory === item && styles.activeCategoryText, // Apply active text style if selected
             ]}
           >
-            {item.title}
+            {item}
           </Text>
         </TouchableOpacity>
       )}
-      keyExtractor={(item) => item.id} // Use the `id` field as the key
+      keyExtractor={(item) => item} // Use the category name as the key
       showsHorizontalScrollIndicator={false}
       style={styles.categoriesContainer}
       onScrollToIndexFailed={() => {

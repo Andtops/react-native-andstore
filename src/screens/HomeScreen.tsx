@@ -4,7 +4,7 @@ import SaleBanner from '../components/shop/home/SaleBanner';
 import CategoryCarousel from '../components/shop/home/CategoryCarousel';
 import ProductList from '../components/shop/home/YouMightBeInterested';
 import NewProductBanner from '../components/shop/home/NewProductBanner';
-import { GETALLPRODUCTS } from '../api/fetchProducts';
+import { GETALLPRODUCTS } from '../api/fetchCollections';
 
 const { height } = Dimensions.get('window'); // Get screen height
 

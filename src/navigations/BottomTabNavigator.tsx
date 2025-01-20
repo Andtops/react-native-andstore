@@ -63,7 +63,8 @@ const BottomTabNavigator = () => {
           alignItems: 'center',
           justifyContent: 'center',
           position: 'relative',
-          height: verticalScale(48), // Adjust height dynamically
+          height: verticalScale(48),
+          display: route.name === 'Search' ? 'none' : 'flex', // Adjust height dynamically
         },
       })}>
       <Tab.Screen

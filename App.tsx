@@ -39,7 +39,7 @@ const App = () => {
         <Stack.Screen 
         name='ProductCategoryList'
         component={ProductCategoryList}
-        options={{ headerShown: false }}
+        options={{ headerShown: false  }}
         />
 
         {/* Bottom Tab Navigator */}
