@@ -1,21 +1,30 @@
 import React from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { ShoppingBag } from 'lucide-react-native';
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
+import LinearGradient from 'react-native-linear-gradient'; // For gradient background
+import { push } from '../../navigations/NavigationUtil';
 
-const ProductItem = ({ item, isGridView, onColorSelect, selectedColor }: any) => {
+const handlePressButton = () => {
+  push('ProductDetails')
+}
+
+const ProductItem = ({ item, isGridView }: any) => {
   const product = item.node;
-
-  const handleColorSelect = (color: string) => {
-    onColorSelect(color === selectedColor ? '' : color);
-  };
 
   const imageUrl = product.featuredImage?.url || 'https://via.placeholder.com/150';
   const price = product.variants.edges[0]?.node.price?.amount || 'N/A';
   const compareAtPrice = product.variants.edges[0]?.node.compareAtPrice?.amount || null;
 
+  // Check if the product has a MultiColor option
+  const hasMultiColor = product.options?.some(
+    (option: any) => option.name === 'Color' && option.values.includes('Multicolor')
+  );
+
   return (
-    <View style={[styles.productCard, { width: isGridView ? '48.3%' : '100%' }]}>
+    <TouchableOpacity style={[styles.productCard, { width: isGridView ? '48.3%' : '100%' }]}
+    onPress={handlePressButton}
+    >
       <Image
         source={{ uri: imageUrl }}
         style={styles.productImage}
@@ -29,29 +38,39 @@ const ProductItem = ({ item, isGridView, onColorSelect, selectedColor }: any) =>
           <Text style={styles.discountedPrice}>₹{price}</Text>
         </View>
 
+        {/* Display available colors or gradient for MultiColor */}
         <View style={styles.selectionContainer}>
           <View style={styles.colorOptions}>
-            {product.options?.map((option: any) => (
-              option.name === 'Color' && option.values.map((color: string, index: number) => (
-                <TouchableOpacity
-                  key={index}
-                  style={[
-                    styles.colorOption,
-                    { backgroundColor: color.toLowerCase() },
-                    selectedColor === color && styles.selectedColorOption,
-                  ]}
-                  onPress={() => handleColorSelect(color)}
-                />
+            {hasMultiColor ? (
+              // Render gradient for MultiColor as a circle
+              <LinearGradient
+                colors={['#FF0000', '#00FF00', '#0000FF']} // Example gradient colors
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={styles.gradientColorOption}
+              />
+            ) : (
+              // Render individual color circles
+              product.options?.map((option: any) => (
+                option.name === 'Color' && option.values.map((color: string, index: number) => (
+                  <View
+                    key={index}
+                    style={[
+                      styles.colorOption,
+                      { backgroundColor: color.toLowerCase() },
+                    ]}
+                  />
+                ))
               ))
-            ))}
+            )}
           </View>
         </View>
 
         <TouchableOpacity style={styles.addToCartButton}>
-          <ShoppingBag style={styles.bagIcon} />
+          <ShoppingBag size={scale(18)} style={styles.bagIcon} />
         </TouchableOpacity>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -60,7 +79,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     flex: 1,
     marginHorizontal: moderateScale(3),
-    marginBottom: verticalScale(16),
   },
   productImage: {
     width: '100%',
@@ -92,7 +110,7 @@ const styles = StyleSheet.create({
     color: '#FF0000',
   },
   selectionContainer: {
-    marginBottom: verticalScale(8),
+    marginBottom: verticalScale(0),
   },
   selectionLabel: {
     fontSize: moderateScale(12),
@@ -111,20 +129,23 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#E5E5E5',
   },
-  selectedColorOption: {
-    borderWidth: 2,
-    borderColor: '#000',
+  gradientColorOption: {
+    width: moderateScale(13), // Same as colorOption
+    height: verticalScale(13), // Same as colorOption
+    borderRadius: moderateScale(13) / 2, // Half of width/height to make it circular
+    borderWidth: 1,
+    borderColor: '#E5E5E5',
   },
   addToCartButton: {
     position: 'absolute',
     right: moderateScale(8),
-    bottom: verticalScale(10),
+    top: verticalScale(20),
     padding: moderateScale(5),
   },
   bagIcon: {
-    width: moderateScale(14),
-    height: verticalScale(14),
+    width: moderateScale(1),
+    height: verticalScale(1),
   },
 });
 
-export default ProductItem;
+export default ProductItem

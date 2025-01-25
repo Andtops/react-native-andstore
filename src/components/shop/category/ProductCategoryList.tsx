@@ -1,5 +1,5 @@
 import React, { FC, useRef, useState, useMemo } from 'react';
-import { FlatList, Animated, StyleSheet, Text, View } from 'react-native';
+import { FlatList, Animated, StyleSheet, Text, View, Image } from 'react-native';
 import { goBack } from '../../../navigations/NavigationUtil';
 import ProductItem from '../../global/ProductItem';
 import FilterModal from './FilterModal';
@@ -195,6 +195,20 @@ const ProductCategoryList: FC<ProductCategoryListProps> = ({ route }) => {
 
   const collection = data?.collection;
 
+  // Render a message when there are no products
+  const renderEmptyComponent = () => (
+    <View style={styles.emptyContainer}>
+      <Image
+        source={require('../../../assets/images/no-product.png')} // Add a relevant image
+        style={styles.emptyImage}
+      />
+      <Text style={styles.emptyText}>No Products Found</Text>
+      <Text style={styles.emptySubText}>
+        Try adjusting your filters or check back later for new arrivals.
+      </Text>
+    </View>
+  );
+
   return (
     <SafeAreaView style={styles.container}>
       <Header collection={collection} scrollY={scrollY} goBack={goBack} />
@@ -226,6 +240,7 @@ const ProductCategoryList: FC<ProductCategoryListProps> = ({ route }) => {
             />
           </>
         }
+        ListEmptyComponent={renderEmptyComponent} // Show this when there are no products
         key={isGridView ? 'grid' : 'list'}
         onScroll={Animated.event(
           [{ nativeEvent: { contentOffset: { y: scrollY } } }],
@@ -243,9 +258,13 @@ const ProductCategoryList: FC<ProductCategoryListProps> = ({ route }) => {
         selectedPriceRange={selectedPriceRange}
         onApplyFilters={handleApplyFilters}
         onClearFilters={handleClearFilters}
+        //@ts-ignore
         productTypes={productTypes}
+        //@ts-ignore
         colors={uniqueColors}
+        //@ts-ignore
         sizes={uniqueSizes}
+        //@ts-ignore
         priceRanges={priceRanges}
       />
     </SafeAreaView>
@@ -259,6 +278,28 @@ const styles = StyleSheet.create({
   },
   productsContainer: {
     paddingHorizontal: moderateScale(1),
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: moderateScale(20),
+  },
+  emptyImage: {
+    width: moderateScale(150),
+    height: moderateScale(150),
+    marginBottom: moderateScale(20),
+  },
+  emptyText: {
+    fontSize: moderateScale(18),
+    fontWeight: 'bold',
+    color: '#000',
+    marginBottom: moderateScale(10),
+  },
+  emptySubText: {
+    fontSize: moderateScale(14),
+    color: '#666',
+    textAlign: 'center',
   },
 });
 
