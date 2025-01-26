@@ -5,10 +5,6 @@ import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 import LinearGradient from 'react-native-linear-gradient'; // For gradient background
 import { push } from '../../navigations/NavigationUtil';
 
-const handlePressButton = () => {
-  push('ProductDetails')
-}
-
 const ProductItem = ({ item, isGridView }: any) => {
   const product = item.node;
 
@@ -21,9 +17,16 @@ const ProductItem = ({ item, isGridView }: any) => {
     (option: any) => option.name === 'Color' && option.values.includes('Multicolor')
   );
 
+  // Handle product click
+  const handlePressButton = () => {
+    // Pass the product data to the ProductDetails screen
+    push('ProductDetails', { product });
+  };
+
   return (
-    <TouchableOpacity style={[styles.productCard, { width: isGridView ? '48.3%' : '100%' }]}
-    onPress={handlePressButton}
+    <TouchableOpacity
+      style={[styles.productCard, { width: isGridView ? '48.3%' : '100%' }]}
+      onPress={handlePressButton}
     >
       <Image
         source={{ uri: imageUrl }}
@@ -148,4 +151,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProductItem
+export default ProductItem;

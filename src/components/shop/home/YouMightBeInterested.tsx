@@ -6,10 +6,11 @@ import {
   StyleSheet,
   FlatList,
   Image,
+  ActivityIndicator,
 } from 'react-native';
 import { MoveRight } from 'lucide-react-native';
 import { useQuery } from '@apollo/client';
-import { YOUMIGHTBEINTERSTED } from '../../../api/fetchCollections'; // Adjust the path to your query file
+import { GET_COLLECTION_BY_HANDLE } from '../../../api/fetchCollections'; // Updated query
 import ShimmerPlaceholder from 'react-native-shimmer-placeholder';
 
 const { height } = Dimensions.get('window');
@@ -42,8 +43,42 @@ const SkeletonLoader = () => {
   );
 };
 
+interface Product {
+  id: string;
+  handle: string;
+  title: string;
+  description: string;
+  productType: string;
+  featuredImage: {
+    url: string;
+  };
+  variants: {
+    edges: {
+      node: {
+        price: {
+          amount: string;
+        };
+      };
+    }[];
+  };
+}
+
+interface CollectionData {
+  collection: {
+    id: string;
+    title: string;
+    products: {
+      edges: {
+        node: Product;
+      }[];
+    };
+  };
+}
+
 const YouMightBeInterested = () => {
-  const { loading, error, data } = useQuery(YOUMIGHTBEINTERSTED);
+  const { loading, error, data } = useQuery<CollectionData>(GET_COLLECTION_BY_HANDLE, {
+    variables: { handle: 'you-might-be-interested' }, // Replace with the correct handle
+  });
 
   // Render skeleton loader while loading
   if (loading) {
@@ -79,7 +114,7 @@ const YouMightBeInterested = () => {
   }
 
   // Render each product item
-  const renderItems = ({ item }: any) => {
+  const renderItems = ({ item }: { item: { node: Product } }) => {
     const product = item.node;
     const price = product.variants.edges[0]?.node.price?.amount || 'N/A';
     const imageUrl = product.featuredImage?.url || 'https://via.placeholder.com/150';

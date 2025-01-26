@@ -1,4 +1,4 @@
-import React, { FC, useRef, useState, useMemo } from 'react';
+import React, { FC, useRef, useState, useMemo, useCallback } from 'react';
 import { FlatList, Animated, StyleSheet, Text, View, Image } from 'react-native';
 import { goBack } from '../../../navigations/NavigationUtil';
 import ProductItem from '../../global/ProductItem';
@@ -9,18 +9,62 @@ import ViewToggle from '../../shop/category/ViewToggle';
 import { moderateScale } from 'react-native-size-matters';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useQuery } from '@apollo/client';
-import {
-  DRESSES_AND_JUMPSUITS_COLLECTIONS,
-  JACKET_AND_COAT_COLLECTIONS,
-  KNITWEAR_AND_SWEATSHIRTS_COLLECTIONS,
-  NEW_COLLECTIONS,
-  SALEPRODUCTS,
-  SHOE_COLLECTIONS,
-  TROUSERS_AND_JEANS_COLLECTIONS,
-  TSHIRTS_AND_TOPS_COLLECTIONS,
-} from '../../../api/fetchCollections';
+import { GET_COLLECTION_BY_HANDLE } from '../../../api/fetchCollections'; // Dynamic query
 import { RouteProp } from '@react-navigation/native';
 import Loader from '../../global/Loader';
+
+// Define types for GraphQL data
+interface Product {
+  id: string;
+  handle: string;
+  title: string;
+  description: string;
+  productType: string;
+  featuredImage: {
+    url: string;
+  };
+  options: {
+    name: string;
+    values: string[];
+  }[];
+  images: {
+    edges: {
+      node: {
+        url: string;
+      };
+    }[];
+  };
+  variants: {
+    edges: {
+      node: {
+        compareAtPrice: {
+          amount: string;
+        };
+        price: {
+          amount: string;
+        };
+        selectedOptions: {
+          name: string;
+          value: string;
+        }[];
+      };
+    }[];
+  };
+}
+
+interface Collection {
+  id: string;
+  title: string;
+  description: string;
+  image: {
+    url: string;
+  };
+  products: {
+    edges: {
+      node: Product;
+    }[];
+  };
+}
 
 interface RouteParams {
   category: string;
@@ -42,124 +86,95 @@ const ProductCategoryList: FC<ProductCategoryListProps> = ({ route }) => {
 
   const { category } = route.params;
 
-  const query =
-    (category === 'sale' && SALEPRODUCTS) ||
-    (category === 'new' && NEW_COLLECTIONS) ||
-    (category === 'jacket-coat' && JACKET_AND_COAT_COLLECTIONS) ||
-    (category === 'shoes' && SHOE_COLLECTIONS) ||
-    (category === 'knitwear-sweaters' && KNITWEAR_AND_SWEATSHIRTS_COLLECTIONS) ||
-    (category === 'trousers-jeans' && TROUSERS_AND_JEANS_COLLECTIONS) ||
-    (category === 't-shirts-tops' && TSHIRTS_AND_TOPS_COLLECTIONS) ||
-    (category === 'dresses-jumpsuits' && DRESSES_AND_JUMPSUITS_COLLECTIONS);
+  // Validate the category prop
+  if (!category || typeof category !== 'string') {
+    return (
+      <View style={styles.errorContainer}>
+        <Text style={styles.errorText}>Invalid category.</Text>
+      </View>
+    );
+  }
 
-  const { loading, error, data } = useQuery(query as any);
+  // Debug the category prop
+
+  // Fetch collection data using a dynamic query
+  const { loading, error, data } = useQuery<{ collection: Collection }>(GET_COLLECTION_BY_HANDLE, {
+    variables: { handle: category },
+  });
 
   const products = data?.collection?.products?.edges || [];
-  const productTypes = [
+  const productTypes = useMemo(() => [
     'See all',
-    ...new Set(products.map((edge: any) => edge.node.productType)),
-  ];
+    ...new Set(products.map((edge) => edge.node.productType)),
+  ], [products]);
 
-  const uniqueColors = [
+  const uniqueColors = useMemo(() => [
     ...new Set(
-      products.flatMap((edge: any) =>
-        edge.node.options
-          .find((opt: any) => opt.name === 'Color')
-          ?.values || []
+      products.flatMap((edge) =>
+        edge.node.options.find((opt) => opt.name === 'Color')?.values || []
       )
     ),
-  ];
+  ], [products]);
 
-  const uniqueSizes = [
+  const uniqueSizes = useMemo(() => [
     ...new Set(
-      products.flatMap((edge: any) =>
-        edge.node.options
-          .find((opt: any) => opt.name === 'Size')
-          ?.values || []
+      products.flatMap((edge) =>
+        edge.node.options.find((opt) => opt.name === 'Size')?.values || []
       )
     ),
-  ];
+  ], [products]);
 
-  const allPrices = products.map((edge: any) =>
-    parseFloat(edge.node.variants.edges[0].node.price.amount)
-  ).sort((a: any, b: any) => a - b);
+  const priceRanges = useMemo(() => {
+    const allPrices = products.map((edge) =>
+      parseFloat(edge.node.variants.edges[0].node.price.amount)
+    ).sort((a, b) => a - b);
 
-  const minPrice = Math.min(...allPrices);
-  const maxPrice = Math.max(...allPrices);
-  const priceRanges = [
-    {
-      label: 'Low to High',
-      type: 'sort',
-      value: 'asc'
-    },
-    {
-      label: 'High to Low',
-      type: 'sort',
-      value: 'desc'
-    },
-    {
-      label: `Under ₹${Math.ceil(minPrice + 1000)}`,
-      type: 'range',
-      min: 0,
-      max: Math.ceil(minPrice + 1000)
-    },
-    {
-      label: `₹${Math.ceil(minPrice + 1000)} - ₹${Math.ceil(minPrice + 2000)}`,
-      type: 'range',
-      min: Math.ceil(minPrice + 1000),
-      max: Math.ceil(minPrice + 2000)
-    },
-    {
-      label: `₹${Math.ceil(minPrice + 2000)} - ₹${Math.ceil(maxPrice)}`,
-      type: 'range',
-      min: Math.ceil(minPrice + 2000),
-      max: Math.ceil(maxPrice)
-    },
-    {
-      label: `Above ₹${Math.ceil(maxPrice)}`,
-      type: 'range',
-      min: Math.ceil(maxPrice),
-      max: Infinity
-    }
-  ];
+    const minPrice = Math.min(...allPrices);
+    const maxPrice = Math.max(...allPrices);
 
-  // Use useMemo to compute filtered products
+    return [
+      { label: 'Low to High', type: 'sort', value: 'asc' },
+      { label: 'High to Low', type: 'sort', value: 'desc' },
+      { label: `Under ₹${Math.ceil(minPrice + 1000)}`, type: 'range', min: 0, max: Math.ceil(minPrice + 1000) },
+      { label: `₹${Math.ceil(minPrice + 1000)} - ₹${Math.ceil(minPrice + 2000)}`, type: 'range', min: Math.ceil(minPrice + 1000), max: Math.ceil(minPrice + 2000) },
+      { label: `₹${Math.ceil(minPrice + 2000)} - ₹${Math.ceil(maxPrice)}`, type: 'range', min: Math.ceil(minPrice + 2000), max: Math.ceil(maxPrice) },
+      { label: `Above ₹${Math.ceil(maxPrice)}`, type: 'range', min: Math.ceil(maxPrice), max: Infinity },
+    ];
+  }, [products]);
+
+  // Filter products based on selected filters
   const filteredProducts = useMemo(() => {
-    if (!products) return [];
+    if (!products.length) return [];
 
     let filtered = [...products];
 
-    if (selectedCategory && selectedCategory !== 'See all') {
-      filtered = filtered.filter((item: any) =>
-        item.node.productType === selectedCategory
-      );
+    if (selectedCategory !== 'See all') {
+      filtered = filtered.filter((item) => item.node.productType === selectedCategory);
     }
 
     if (selectedColor) {
-      filtered = filtered.filter((item: any) => {
-        const colorOption = item.node.options.find((opt: any) => opt.name === 'Color');
+      filtered = filtered.filter((item) => {
+        const colorOption = item.node.options.find((opt) => opt.name === 'Color');
         return colorOption?.values.includes(selectedColor);
       });
     }
 
     if (selectedSize) {
-      filtered = filtered.filter((item: any) => {
-        const sizeOption = item.node.options.find((opt: any) => opt.name === 'Size');
+      filtered = filtered.filter((item) => {
+        const sizeOption = item.node.options.find((opt) => opt.name === 'Size');
         return sizeOption?.values.includes(selectedSize);
       });
     }
 
     if (selectedPriceRange) {
-      filtered = filtered.filter((item: any) => {
+      filtered = filtered.filter((item) => {
         const price = parseFloat(item.node.variants.edges[0].node.price.amount);
-        if (selectedPriceRange.type === 'sort') {
-          return true;
-        }
+        if (selectedPriceRange.type === 'sort') return true;
         return price >= selectedPriceRange.min && price <= selectedPriceRange.max;
       });
 
       if (selectedPriceRange.type === 'sort') {
-        filtered.sort((a: any, b: any) => {
+        filtered.sort((a, b) => {
           const priceA = parseFloat(a.node.variants.edges[0].node.price.amount);
           const priceB = parseFloat(b.node.variants.edges[0].node.price.amount);
           return selectedPriceRange.value === 'asc' ? priceA - priceB : priceB - priceA;
@@ -170,7 +185,7 @@ const ProductCategoryList: FC<ProductCategoryListProps> = ({ route }) => {
     return filtered;
   }, [products, selectedCategory, selectedColor, selectedSize, selectedPriceRange]);
 
-  const handleApplyFilters = (
+  const handleApplyFilters = useCallback((
     category: string,
     color: string,
     size: string,
@@ -181,25 +196,24 @@ const ProductCategoryList: FC<ProductCategoryListProps> = ({ route }) => {
     setSelectedSize(size);
     setSelectedPriceRange(priceRange);
     setIsFilterOpen(false);
-  };
+  }, []);
 
-  const handleClearFilters = () => {
+  const handleClearFilters = useCallback(() => {
     setSelectedCategory('See all');
     setSelectedColor('');
     setSelectedSize('');
     setSelectedPriceRange(null);
-  };
+  }, []);
 
   if (loading) return <Loader />;
-  if (error) return <Text>Error: {error.message}</Text>;
+  if (error) return <Text style={{color: "red", textAlign: "center", width:"50%", margin: "auto"}}>Error: {error.message}</Text>;
 
   const collection = data?.collection;
 
-  // Render a message when there are no products
   const renderEmptyComponent = () => (
     <View style={styles.emptyContainer}>
       <Image
-        source={require('../../../assets/images/no-product.png')} // Add a relevant image
+        source={require('../../../assets/images/no-product.png')}
         style={styles.emptyImage}
       />
       <Text style={styles.emptyText}>No Products Found</Text>
@@ -240,7 +254,7 @@ const ProductCategoryList: FC<ProductCategoryListProps> = ({ route }) => {
             />
           </>
         }
-        ListEmptyComponent={renderEmptyComponent} // Show this when there are no products
+        ListEmptyComponent={renderEmptyComponent}
         key={isGridView ? 'grid' : 'list'}
         onScroll={Animated.event(
           [{ nativeEvent: { contentOffset: { y: scrollY } } }],
@@ -258,11 +272,8 @@ const ProductCategoryList: FC<ProductCategoryListProps> = ({ route }) => {
         selectedPriceRange={selectedPriceRange}
         onApplyFilters={handleApplyFilters}
         onClearFilters={handleClearFilters}
-        //@ts-ignore
         productTypes={productTypes}
-        //@ts-ignore
         colors={uniqueColors}
-        //@ts-ignore
         sizes={uniqueSizes}
         //@ts-ignore
         priceRanges={priceRanges}
@@ -299,6 +310,16 @@ const styles = StyleSheet.create({
   emptySubText: {
     fontSize: moderateScale(14),
     color: '#666',
+    textAlign: 'center',
+  },
+  errorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  errorText: {
+    fontSize: 16,
+    color: 'red',
     textAlign: 'center',
   },
 });
